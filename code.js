@@ -27,7 +27,9 @@ var slice = Array.prototype.slice;
 
 var baseUrl = baseUrl || '.';
 
-var storage = new JSONStorage('https://glowing-fire-4998.firebaseio.com/hyproto');
+var storage = new JSONStorage(
+  'https://glowing-fire-4998.firebaseio.com/hyproto'
+);
 
 /**
  * Create a namespace for the application.
@@ -38,9 +40,9 @@ var Code = {};
  * Lookup for names of supported languages.  Keys should be in ISO 639 format.
  */
 Code.LANGUAGE_NAME = {
-  'en': 'English',
-  'zh-hant': '正體中文',
-  'zh-hans': '简体中文'
+  // en: 'English',
+  // 'zh-hant': '正體中文',
+  'zh-hans': '简体中文',
 };
 
 /**
@@ -74,7 +76,7 @@ Code.getLang = function () {
   var lang = Code.getStringParamFromUrl('lang', '');
   if (Code.LANGUAGE_NAME[lang] === undefined) {
     // Default to English.
-    lang = 'zh-hant';
+    lang = 'zh-hans';
   }
   return lang;
 };
@@ -105,60 +107,60 @@ Code.getPinDropdown = function () {
   var tags = Code.getTags(),
     mappings = [
       [
-        ["2", "2"],
-        ["3~", "3"],
-        ["4", "4"],
-        ["5~", "5"],
-        ["6~", "6"],
-        ["7", "7"],
-        ["8", "8"],
-        ["9~", "9"],
-        ["10~", "10"],
-        ["11~", "11"],
-        ["12", "12"],
-        ["13", "13"],
-        ["14 ( A0 )", "14"],
-        ["15 ( A1 )", "15"],
-        ["16 ( A2 )", "16"],
-        ["17 ( A3 )", "17"],
-        ["18 ( A4 )", "18"],
-        ["19 ( A5 )", "19"]
+        ['2', '2'],
+        ['3~', '3'],
+        ['4', '4'],
+        ['5~', '5'],
+        ['6~', '6'],
+        ['7', '7'],
+        ['8', '8'],
+        ['9~', '9'],
+        ['10~', '10'],
+        ['11~', '11'],
+        ['12', '12'],
+        ['13', '13'],
+        ['14 ( A0 )', '14'],
+        ['15 ( A1 )', '15'],
+        ['16 ( A2 )', '16'],
+        ['17 ( A3 )', '17'],
+        ['18 ( A4 )', '18'],
+        ['19 ( A5 )', '19'],
       ],
       [
-        ["12~", "12"],
-        ["13~", "13"],
-        ["14~", "14"],
-        ["15~", "15"],
-        ["16~", "16"],
-        ["AD", "17"],
-        ["0~", "0"],
-        ["TX", "1"],
-        ["2~", "2"],
-        ["RX", "3"],
-        ["4~", "4"],
-        ["5~", "5"]
+        ['12~', '12'],
+        ['13~', '13'],
+        ['14~', '14'],
+        ['15~', '15'],
+        ['16~', '16'],
+        ['AD', '17'],
+        ['0~', '0'],
+        ['TX', '1'],
+        ['2~', '2'],
+        ['RX', '3'],
+        ['4~', '4'],
+        ['5~', '5'],
       ],
       [
-        ["0", "0"],
-        ["2", "2"],
-        ["3", "3"],
-        ["4", "4"],
-        ["5", "5"],
-        ["6", "6"],
-        ["7", "7"],
-        ["8", "8"],
-        ["9", "9"],
-        ["10", "10"],
-        ["11", "11"],
-        ["12", "12"],
-        ["13", "13"],
-        ["14", "14"],
-        ["15", "15"],
-        ["16", "16"],
-        ["17", "17"],
-        ["18", "18"],
-        ["19", "19"]
-      ]
+        ['0', '0'],
+        ['2', '2'],
+        ['3', '3'],
+        ['4', '4'],
+        ['5', '5'],
+        ['6', '6'],
+        ['7', '7'],
+        ['8', '8'],
+        ['9', '9'],
+        ['10', '10'],
+        ['11', '11'],
+        ['12', '12'],
+        ['13', '13'],
+        ['14', '14'],
+        ['15', '15'],
+        ['16', '16'],
+        ['17', '17'],
+        ['18', '18'],
+        ['19', '19'],
+      ],
     ];
 
   if (tags.length === 1 && tags[0] !== '*') {
@@ -259,7 +261,8 @@ Code.changeLanguage = function () {
 
   var languageMenu = document.getElementById('languageMenu');
   var newLang = encodeURIComponent(
-    languageMenu.options[languageMenu.selectedIndex].value);
+    languageMenu.options[languageMenu.selectedIndex].value
+  );
   if (newLang !== 'zh-hant') {
     Code.queryString.set('lang', newLang, true);
   } else {
@@ -319,7 +322,7 @@ Code.getBBox_ = function (element) {
     height: height,
     width: width,
     x: x,
-    y: y
+    y: y,
   };
 };
 
@@ -349,7 +352,10 @@ Code.checkDeviceOnline = function (device) {
   device.btn.onclick = function () {
     if (localStorage.boardCheckOpen == 1) {
       localStorage.boardCheckOpen = 0;
-      device.inputArea.className = device.inputArea.className.replace('open', '');
+      device.inputArea.className = device.inputArea.className.replace(
+        'open',
+        ''
+      );
     } else {
       localStorage.boardCheckOpen = 1;
       device.inputArea.className = device.inputArea.className + 'open';
@@ -367,7 +373,11 @@ Code.checkDeviceOnline = function (device) {
       }
 
       function doCheck() {
-        var board = new webduino.WebArduino({ device: v, multi: true, clientId: 'lightning' });
+        var board = new webduino.WebArduino({
+          device: v,
+          multi: true,
+          clientId: 'lightning',
+        });
         board.on('ready', function () {
           device.icon.setAttribute('class', 'check board-online icon-power');
           board.once(webduino.BoardEvent.DISCONNECT, function (e) {
@@ -396,13 +406,15 @@ Code.checkDeviceOnline = function (device) {
 
   if (localStorage.boardCheckOpen == 0) {
     device.inputArea.className = device.inputArea.className.replace('open', '');
-  } else if (localStorage.boardCheckOpen == 1 && device.inputArea.value.length < 4) {
+  } else if (
+    localStorage.boardCheckOpen == 1 &&
+    device.inputArea.value.length < 4
+  ) {
     localStorage.boardCheckOpen = 0;
     device.inputArea.className = device.inputArea.className.replace('open', '');
   } else {
     device.inputArea.className = device.inputArea.className + 'open';
   }
-
 };
 
 Code.copyCode = function (copy) {
@@ -431,12 +443,12 @@ Code.copyCode = function (copy) {
 Code.bindHotkey = function (document) {
   Blockly.bindEvent_(document, 'keydown', null, function (e) {
     switch (Code.getHotKey(e)) {
-    case Code.HOTKEY.EXEC:
-      Code.runJS();
-      break;
+      case Code.HOTKEY.EXEC:
+        Code.runJS();
+        break;
 
-    default:
-      break;
+      default:
+        break;
     }
   });
 };
@@ -459,16 +471,16 @@ Code.loadDemoArea = function () {
   var resizeBar = document.getElementById('demo-resize-bar');
   var demoPage = Code.getDemoPage();
 
-  area.style.height = (contentHeight - 110) + 'px';
-  area.className = area.className.replace("show", "");
+  area.style.height = contentHeight - 110 + 'px';
+  area.className = area.className.replace('show', '');
 
   if (localStorage.demoAreaWidth) {
     area.style.width = localStorage.demoAreaWidth;
   }
 
   if (demoPage !== 'default') {
-    area.className = area.className + "show";
-    btn.className = "notext toolMenu opened";
+    area.className = area.className + 'show';
+    btn.className = 'notext toolMenu opened';
     Code.queryString.set('demo', demoPage);
   }
 
@@ -481,7 +493,7 @@ Code.loadDemoArea = function () {
     frame.style.pointerEvents = 'none';
     var ox = e.pageX;
     var dw = area.offsetWidth;
-    area.className += " resize";
+    area.className += ' resize';
 
     document.onmousemove = function (event) {
       var rx = event.pageX;
@@ -494,21 +506,24 @@ Code.loadDemoArea = function () {
     area.style.opacity = '1';
     var frame = document.getElementById('demo-frame');
     frame.style.pointerEvents = 'auto';
-    area.className = area.className.replace("resize", "");
+    area.className = area.className.replace('resize', '');
     document.onmousemove = null;
   };
 
   btn.onclick = function () {
     var demoPage = Code.getDemoPage();
     if (demoPage !== 'default') {
-      area.className = area.className.replace("show", "");
-      btn.className = "notext toolMenu";
+      area.className = area.className.replace('show', '');
+      btn.className = 'notext toolMenu';
       localStorage.demoAreaSelect = demoPage;
       Code.queryString.unset('demo');
     } else {
-      area.className += " show";
-      btn.className = "notext toolMenu opened";
-      Code.queryString.set('demo', localStorage.demoAreaSelect || 'demo-area-01');
+      area.className += ' show';
+      btn.className = 'notext toolMenu opened';
+      Code.queryString.set(
+        'demo',
+        localStorage.demoAreaSelect || 'demo-area-01'
+      );
       select.value = localStorage.demoAreaSelect || 'demo-area-01';
       delete localStorage.demoAreaSelect;
     }
@@ -517,8 +532,8 @@ Code.loadDemoArea = function () {
   };
 
   close.onclick = function () {
-    area.className = area.className.replace("show", "");
-    btn.className = "notext toolMenu";
+    area.className = area.className.replace('show', '');
+    btn.className = 'notext toolMenu';
     localStorage.demoAreaSelect = Code.getDemoPage();
     Code.queryString.unset('demo');
     Code.workspace.updateToolbox(Code.getToolBox());
@@ -537,7 +552,8 @@ Code.loadSample = function () {
     sampleMenu = document.getElementById('smaple-menu'),
     sampleMenuOpen = false,
     sampleBtnOver = false,
-    sampleTitle = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="board_ready"',
+    sampleTitle =
+      '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="board_ready"',
     sample_x = 10,
     sample_y = 10;
 
@@ -553,13 +569,13 @@ Code.loadSample = function () {
     if (!sampleMenuOpen) {
       sampleMenuOpen = true;
       sampleMenu.style.display = 'block';
-      sampleBtn.className = "notext toolMenu opened";
+      sampleBtn.className = 'notext toolMenu opened';
       sampleMenu.focus();
     } else {
       sampleMenuOpen = false;
       sampleMenu.style.display = 'none';
       sampleBtn.style.color = '#000';
-      sampleBtn.className = "notext toolMenu";
+      sampleBtn.className = 'notext toolMenu';
     }
   };
 
@@ -568,19 +584,18 @@ Code.loadSample = function () {
       sampleMenuOpen = false;
       sampleMenu.style.display = 'none';
       sampleBtn.style.color = '#000';
-      sampleBtn.className = "notext toolMenu";
+      sampleBtn.className = 'notext toolMenu';
     }
   };
 
   sampleMenu.onclick = function (e) {
-
     var ele = e.target,
       chap = ele.getAttribute('data-value'),
       className = ele.className;
 
     var st = function (x, y) {
       return sampleTitle + ' x="' + sample_x + '" y="' + sample_y + '" ';
-    }
+    };
 
     if (chap && window.confirm(Blockly.Msg.SAMPLE_COMFIRM_MSG)) {
       Code.workspace.clear();
@@ -600,7 +615,6 @@ Code.loadSample = function () {
         xmlDom = Blockly.Xml.textToDom(xmlText);
       Blockly.Xml.domToWorkspace(xmlDom, Code.workspace);
     }
-
   };
 };
 
@@ -620,7 +634,7 @@ Code.lastRun = 0;
 
 Code.HOTKEY = {
   EXEC: 0,
-  UNKNOWN: -1
+  UNKNOWN: -1,
 };
 
 Code.rawToolbox = null;
@@ -639,15 +653,17 @@ Code.selected = 'blocks';
  */
 Code.tabClick = function (clickedName) {
   // If the XML tab was open, save and render the content.
-  if (Code.TABS_['xml'] && document.getElementById('tab_xml').className == 'tabon') {
+  if (
+    Code.TABS_['xml'] &&
+    document.getElementById('tab_xml').className == 'tabon'
+  ) {
     var xmlTextarea = document.getElementById('content_xml');
     var xmlText = xmlTextarea.value;
     var xmlDom = null;
     try {
       xmlDom = Blockly.Xml.textToDom(xmlText);
     } catch (e) {
-      var q =
-        window.confirm(MSG['badXml'].replace('%1', e));
+      var q = window.confirm(MSG['badXml'].replace('%1', e));
       if (!q) {
         // Leave the user on the XML tab.
         return;
@@ -708,20 +724,20 @@ Code.ga = function (blockArea, toolManu, i) {
   }
 };
 
-Code.remind = function(){
+Code.remind = function () {
   var remindButton = document.getElementById('remind-button');
   var remind = document.querySelector('.remind');
   var cookie = document.cookie;
-  if(cookie.indexOf('webduinoBlocklyRemind=close')!=-1){
+  if (cookie.indexOf('webduinoBlocklyRemind=close') != -1) {
     remind.style.display = 'none';
-  }else{
-  remindButton.addEventListener('click',function(){
-    remind.style.display = 'none';
-    document.cookie =  'webduinoBlocklyRemind=close';
-    ga('send', 'event', 'Webduino-blockly', 'remind click');
-  });
+  } else {
+    remindButton.addEventListener('click', function () {
+      remind.style.display = 'none';
+      document.cookie = 'webduinoBlocklyRemind=close';
+      ga('send', 'event', 'Webduino-blockly', 'remind click');
+    });
   }
-}
+};
 
 /**
  * Populate the currently selected pane with content generated from the blocks.
@@ -764,7 +780,10 @@ Code.filterXML = function (toolbox, property, values) {
   });
 
   function filterTag(node) {
-    var vals = node.getAttribute(property).trim().split(/\s*,\s*/);
+    var vals = node
+      .getAttribute(property)
+      .trim()
+      .split(/\s*,\s*/);
     vals = vals.filter(function (tag) {
       return values.indexOf('*') !== -1 || values.indexOf(tag) !== -1;
     });
@@ -789,18 +808,24 @@ Code.pruneNode = function (node) {
 Code.getToolBox = function () {
   var toolbox = Code.filterXML(
       Code.filterXML(Code.rawToolbox, 'tags', Code.getTags()),
-      'demo', [Code.getDemoPage()]),
-    categories = slice.call(toolbox.querySelectorAll('category')).map(function (e) {
-      return e.id;
-    });
-  for (var i = 0, cat; cat = categories[i]; i++) {
+      'demo',
+      [Code.getDemoPage()]
+    ),
+    categories = slice
+      .call(toolbox.querySelectorAll('category'))
+      .map(function (e) {
+        return e.id;
+      });
+  for (var i = 0, cat; (cat = categories[i]); i++) {
     toolbox.querySelector('#' + cat).setAttribute('name', MSG[cat]);
   }
   return toolbox;
 };
 
 Code.getUrlParts = function () {
-  return (location.protocol + '//' + location.host + location.pathname).split('/');
+  return (location.protocol + '//' + location.host + location.pathname).split(
+    '/'
+  );
 };
 
 /**
@@ -821,16 +846,20 @@ Code.init = function (toolbox) {
       // Height and width need to be set, read back, then set again to
       // compensate for scrollbars.
       el.style.height = bBox.height + 'px';
-      el.style.height = (2 * bBox.height - el.offsetHeight) + 'px';
+      el.style.height = 2 * bBox.height - el.offsetHeight + 'px';
       el.style.width = bBox.width + 'px';
-      el.style.width = (2 * bBox.width - el.offsetWidth) + 'px';
+      el.style.width = 2 * bBox.width - el.offsetWidth + 'px';
     }
     if (Code.workspace.toolbox_.width) {
-      blocklyMenu = document.querySelector('.blocklyTreeRow.blocklyTreeSelected');
+      blocklyMenu = document.querySelector(
+        '.blocklyTreeRow.blocklyTreeSelected'
+      );
       if (blocklyMenu) {
-        document.getElementById('tab_blocks').style.minWidth = (blocklyMenu.offsetWidth - 38) + 'px';
+        document.getElementById('tab_blocks').style.minWidth =
+          blocklyMenu.offsetWidth - 38 + 'px';
       } else {
-        document.getElementById('tab_blocks').style.minWidth = (Code.workspace.toolbox_.width - 38) + 'px';
+        document.getElementById('tab_blocks').style.minWidth =
+          Code.workspace.toolbox_.width - 38 + 'px';
       }
     }
     // Make the 'Blocks' tab line up with the toolbox.
@@ -840,7 +869,8 @@ Code.init = function (toolbox) {
     //      // Account for the 19 pixel margin and on each side.
     //}
     var contentHeight = document.getElementById('content_blocks').offsetHeight;
-    document.getElementById('demo-area').style.height = (contentHeight - 65) + 'px';
+    document.getElementById('demo-area').style.height =
+      contentHeight - 65 + 'px';
   };
   window.addEventListener('resize', onresize, false);
 
@@ -849,15 +879,15 @@ Code.init = function (toolbox) {
       spacing: 25,
       length: 3,
       colour: '#ccc',
-      snap: true
+      snap: true,
     },
     media: baseUrl + '/components/blockly-src/media/',
     rtl: rtl,
     toolbox: toolbox,
     zoom: {
       controls: true,
-      wheel: false
-    }
+      wheel: false,
+    },
   });
 
   // Add to reserved word list: Local variables in execution environment (runJS)
@@ -874,13 +904,29 @@ Code.init = function (toolbox) {
   Code.tabClick(Code.selected);
 
   Code.bindClick('qrButton', function () {
-    var img = document.querySelector('#qrImg'),
+    var name = prompt('请输入文件名', '');
+    $.ajax({
+      type: 'GET',
+      url:
+        'http://experiment.shangyunsoft.com/exam/examMicroCode/queryByName?name=' +
+        name,
+      dataType: 'json',
+      success: function (response) {
+        var xml = Blockly.Xml.textToDom(response.result.code);
+        Blockly.Xml.domToWorkspace(xml, Code.workspace);
+      },
+      error: function (message) {
+        layui.layer.msg('加载失败!');
+      },
+    });
+    /*
+    var img = document.querySelector("#qrImg"),
       ctx = Code.getContext();
 
-    launcher.loadTemplate('./templates/' + ctx.tpl + '.html', function (data) {
+    launcher.loadTemplate("./templates/" + ctx.tpl + ".html", function (data) {
       data.body = launcher.translate(data.body, MSG);
 
-      if (ctx.jsPreprocessor === 'babel') {
+      if (ctx.jsPreprocessor === "babel") {
         data.js = Code.transform(ctx.data.js);
       } else {
         data.js = ctx.data.js;
@@ -889,29 +935,38 @@ Code.init = function (toolbox) {
       launcher.liveview(storage, data, function (url) {
         url = window.encodeURIComponent(url);
         if (img === null) {
-          img = document.createElement('img');
-          img.id = 'qrImg';
-          img.src = 'http://chart.apis.google.com/chart?cht=qr&chl=' + url + '&chs=300x300';
-          document.querySelector('#openModal').children[0].appendChild(img);
+          img = document.createElement("img");
+          img.id = "qrImg";
+          img.src =
+            "http://chart.apis.google.com/chart?cht=qr&chl=" +
+            url +
+            "&chs=300x300";
+          document.querySelector("#openModal").children[0].appendChild(img);
         } else {
-          img.src = 'http://chart.apis.google.com/chart?cht=qr&chl=' + url + '&chs=300x300';
+          img.src =
+            "http://chart.apis.google.com/chart?cht=qr&chl=" +
+            url +
+            "&chs=300x300";
         }
       });
     });
+    */
   });
 
   Code.bindClick('linkToBin', function () {
     var ctx = Code.getContext(),
       urls = Code.getUrlParts();
     urls.pop();
-    localStorage.setItem(urls.join('/') + '/launcher.html', JSON.stringify(ctx));
+    localStorage.setItem(
+      urls.join('/') + '/launcher.html',
+      JSON.stringify(ctx)
+    );
   });
 
-  Code.bindClick('trashButton',
-    function () {
-      Code.discard();
-      Code.renderContent();
-    });
+  Code.bindClick('trashButton', function () {
+    Code.discard();
+    Code.renderContent();
+  });
   Code.bindClick('runButton', Code.runJS);
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
@@ -920,39 +975,67 @@ Code.init = function (toolbox) {
     BlocklyStorage['LINK_ALERT'] = MSG['linkAlert'];
     BlocklyStorage['HASH_ERROR'] = MSG['hashError'];
     BlocklyStorage['XML_ERROR'] = MSG['xmlError'];
-    Code.bindClick(linkButton,
-      function () {
-        BlocklyStorage.link(Code.workspace);
+    Code.bindClick(linkButton, function () {
+      layui.layer.open({
+        title: '生成代码',
+        type: 1,
+        content: Blockly.JavaScript.workspaceToCode(Code.workspace),
       });
+
+      var name = prompt('请输入文件名', '');
+      $.ajax({
+        type: 'POST',
+        url: 'http://experiment.shangyunsoft.com/exam/examMicroCode/add',
+        contentType: 'application/json;charset=utf-8',
+        data: JSON.stringify({
+          userId: getUrlParam('userId', '0'),
+          name: name,
+          code: Blockly.Xml.domToText(
+            Blockly.Xml.workspaceToDom(Code.workspace)
+          ),
+        }),
+        dataType: 'json',
+        success: function (res) {
+          layui.layer.msg(res.message);
+        },
+        error: function (message) {
+          layui.layer.msg('保存失败!');
+        },
+      });
+
+      // BlocklyStorage.link(Code.workspace);
+    });
   } else if (linkButton) {
     linkButton.className = 'disabled';
   }
 
   for (var i = 0; i < Code.TABS_.length; i++) {
     var name = Code.TABS_[i];
-    Code.bindClick('tab_' + name,
-      function (name_) {
+    Code.bindClick(
+      'tab_' + name,
+      (function (name_) {
         return function () {
           Code.tabClick(name_);
         };
-      }(name));
+      })(name)
+    );
   }
 
   var filterBtn = document.querySelectorAll('.filterBtn');
-  if(Code.getTags()[0]=='smart'){
+  if (Code.getTags()[0] == 'smart') {
     filterBtn[0].className = 'filterBtn';
     filterBtn[1].className = 'filterBtn selected';
   }
-  filterBtn.forEach(function(item,index){
-    filterBtn[index].onclick = function(){
-      filterBtn.forEach(function(m,n){
+  filterBtn.forEach(function (item, index) {
+    filterBtn[index].onclick = function () {
+      filterBtn.forEach(function (m, n) {
         filterBtn[n].className = 'filterBtn';
       });
       filterBtn[index].className = 'filterBtn selected';
       var tagName = this.getAttribute('tag');
-      if(tagName){
+      if (tagName) {
         Code.queryString.set('tags', tagName);
-      }else{
+      } else {
         Code.queryString.unset('tags');
       }
       Code.workspace.updateToolbox(Code.getToolBox());
@@ -1045,9 +1128,11 @@ Code.runJS = function () {
     return;
   }
 
-  if (navigator.userAgent.match(/iPhone/i) ||
+  if (
+    navigator.userAgent.match(/iPhone/i) ||
     navigator.userAgent.match(/iPad/i) ||
-    navigator.userAgent.match(/iPod/i)) {
+    navigator.userAgent.match(/iPod/i)
+  ) {
     if (now - Code.lastRun < 1000) {
       return;
     }
@@ -1065,27 +1150,27 @@ Code.toggleRunning = function () {
   var demoStopBtn = document.querySelector('.close-btn');
 
   if (!Code.running) {
-    runBtn.style.backgroundColor = "#0a5";
-    runBtn.style.borderColor = "#0a5";
+    runBtn.style.backgroundColor = '#0a5';
+    runBtn.style.borderColor = '#0a5';
     document.querySelector('#runButton i').setAttribute('class', 'icon-stop2');
     document.querySelector('#runButton div').innerHTML = MSG['stopRunTooltip'];
     select.disabled = true;
     demoBtn.disabled = true;
-    demoBtn.className = "notext toolMenu running";
+    demoBtn.className = 'notext toolMenu running';
     demoBtn.style.pointerEvents = 'none';
     demoStopBtn.style.pointerEvents = 'none';
     demoStopBtn.style.opacity = 0.2;
   } else {
-    runBtn.style.backgroundColor = "#dd4b39";
-    runBtn.style.borderColor = "#dd4b39";
+    runBtn.style.backgroundColor = '#dd4b39';
+    runBtn.style.borderColor = '#dd4b39';
     document.querySelector('#runButton i').setAttribute('class', 'icon-play3');
     document.querySelector('#runButton div').innerHTML = MSG['runTooltip'];
     select.disabled = false;
     demoBtn.disabled = false;
     if (localStorage.demoArea == 'open') {
-      demoBtn.className = "notext toolMenu opened";
+      demoBtn.className = 'notext toolMenu opened';
     } else {
-      demoBtn.className = "notext toolMenu";
+      demoBtn.className = 'notext toolMenu';
     }
     demoBtn.style.pointerEvents = 'auto';
     demoStopBtn.style.pointerEvents = 'auto';
@@ -1113,9 +1198,13 @@ Code.reloadSandbox = function () {
 
     var frame = container.querySelector('#demo-frame');
     if (frame) {
-      frame.contentWindow.addEventListener('unload', function () {
-        createIframe();
-      }, false);
+      frame.contentWindow.addEventListener(
+        'unload',
+        function () {
+          createIframe();
+        },
+        false
+      );
 
       var event = new UIEvent('beforeunload');
       frame.contentWindow.dispatchEvent(event);
@@ -1187,7 +1276,11 @@ Code.hookEvents = function (window, frame) {
 
 Code.unhookEvents = function (window, frame) {
   if (frame.msgDispatcher) {
-    frame.contentWindow.removeEventListener('message', frame.msgDispatcher, false);
+    frame.contentWindow.removeEventListener(
+      'message',
+      frame.msgDispatcher,
+      false
+    );
     delete frame.msgDispatcher;
   }
   if (window.msgDispatcher) {
@@ -1213,9 +1306,9 @@ Code.getContext = function () {
     lang: lang,
     modes: 'html,css,js,output',
     data: {
-      js: code
+      js: code,
     },
-    jsPreprocessor: babelize ? 'babel' : ''
+    jsPreprocessor: babelize ? 'babel' : '',
   };
 };
 
@@ -1223,7 +1316,7 @@ Code.transform = function (code) {
   try {
     return Babel.transform(code, {
       presets: ['es2015', 'stage-3'],
-      plugins: ['transform-strict-mode']
+      plugins: ['transform-strict-mode'],
     }).code;
   } catch (e) {
     alert(e);
@@ -1235,8 +1328,10 @@ Code.transform = function (code) {
  */
 Code.discard = function () {
   var count = Code.workspace.getAllBlocks().length;
-  if (count < 2 ||
-    window.confirm(Blockly.Msg.DELETE_ALL_BLOCKS.replace('%1', count))) {
+  if (
+    count < 2 ||
+    window.confirm(Blockly.Msg.DELETE_ALL_BLOCKS.replace('%1', count))
+  ) {
     Code.workspace.clear();
     if (window.location.hash) {
       window.location.hash = '';
@@ -1249,7 +1344,10 @@ Code.debug = function () {
   for (var i = 0; i < Blockly.JavaScript.depth; i++) {
     space += '  ';
   }
-  console.log.apply(console, [space].concat(Array.prototype.slice.apply(arguments)));
+  console.log.apply(
+    console,
+    [space].concat(Array.prototype.slice.apply(arguments))
+  );
 };
 
 Code.exportImage = function () {
@@ -1262,10 +1360,12 @@ Code.getBlockDemo = function (type) {
   var block = toolbox.querySelector('block[type=' + type + ']');
   var attr;
   if (block) {
-    while (block = block.parentNode) {
-      if (block.nodeType === 1 &&
+    while ((block = block.parentNode)) {
+      if (
+        block.nodeType === 1 &&
         block.tagName.toLowerCase() === 'category' &&
-        (attr = block.getAttribute('demo'))) {
+        (attr = block.getAttribute('demo'))
+      ) {
         return attr;
       }
     }
@@ -1283,29 +1383,52 @@ Code.getBlockTypes = function () {
 Blockly.JavaScript['procedures_defnoreturn'] = function (block) {
   // Define a procedure with a return value.
   var funcName = Blockly.JavaScript.variableDB_.getName(
-    block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
+    block.getFieldValue('NAME'),
+    Blockly.Procedures.NAME_TYPE
+  );
   var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
   if (Blockly.JavaScript.STATEMENT_PREFIX) {
-    branch = Blockly.JavaScript.prefixLines(
-      Blockly.JavaScript.STATEMENT_PREFIX.replace(/%1/g,
-        '\'' + block.id + '\''), Blockly.JavaScript.INDENT) + branch;
+    branch =
+      Blockly.JavaScript.prefixLines(
+        Blockly.JavaScript.STATEMENT_PREFIX.replace(
+          /%1/g,
+          "'" + block.id + "'"
+        ),
+        Blockly.JavaScript.INDENT
+      ) + branch;
   }
   if (Blockly.JavaScript.INFINITE_LOOP_TRAP) {
-    branch = Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(/%1/g,
-      '\'' + block.id + '\'') + branch;
+    branch =
+      Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(
+        /%1/g,
+        "'" + block.id + "'"
+      ) + branch;
   }
-  var returnValue = Blockly.JavaScript.valueToCode(block, 'RETURN',
-    Blockly.JavaScript.ORDER_NONE) || '';
+  var returnValue =
+    Blockly.JavaScript.valueToCode(
+      block,
+      'RETURN',
+      Blockly.JavaScript.ORDER_NONE
+    ) || '';
   if (returnValue) {
     returnValue = '  return ' + returnValue + ';\n';
   }
   var args = [];
   for (var x = 0; x < block.arguments_.length; x++) {
-    args[x] = Blockly.JavaScript.variableDB_.getName(block.arguments_[x],
-      Blockly.Variables.NAME_TYPE);
+    args[x] = Blockly.JavaScript.variableDB_.getName(
+      block.arguments_[x],
+      Blockly.Variables.NAME_TYPE
+    );
   }
-  var code = 'function ' + funcName + '(' + args.join(', ') + ') {\n' +
-    branch + returnValue + '}';
+  var code =
+    'function ' +
+    funcName +
+    '(' +
+    args.join(', ') +
+    ') {\n' +
+    branch +
+    returnValue +
+    '}';
   code = Blockly.JavaScript.scrub_(block, code);
   if (code.indexOf('await ') !== -1) {
     code = 'async ' + code;
@@ -1314,13 +1437,19 @@ Blockly.JavaScript['procedures_defnoreturn'] = function (block) {
   return null;
 };
 
-Blockly.JavaScript['_procedures_callreturn'] = Blockly.JavaScript['procedures_callreturn'];
+Blockly.JavaScript['_procedures_callreturn'] =
+  Blockly.JavaScript['procedures_callreturn'];
 
 Blockly.JavaScript['procedures_callreturn'] = function (block) {
   // Call a procedure with a return value.
   var funcName = Blockly.JavaScript.variableDB_.getName(
-    block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
-  var codes = Blockly.JavaScript['_procedures_callreturn'].call(Blockly.JavaScript, block);
+    block.getFieldValue('NAME'),
+    Blockly.Procedures.NAME_TYPE
+  );
+  var codes = Blockly.JavaScript['_procedures_callreturn'].call(
+    Blockly.JavaScript,
+    block
+  );
   var defs = Blockly.JavaScript.definitions_;
   if (defs[funcName] && defs[funcName].indexOf('async ') === 0) {
     return ['await ' + codes[0], codes[1]];
@@ -1328,13 +1457,19 @@ Blockly.JavaScript['procedures_callreturn'] = function (block) {
   return codes;
 };
 
-Blockly.JavaScript['_procedures_callnoreturn'] = Blockly.JavaScript['procedures_callnoreturn'];
+Blockly.JavaScript['_procedures_callnoreturn'] =
+  Blockly.JavaScript['procedures_callnoreturn'];
 
 Blockly.JavaScript['procedures_callnoreturn'] = function (block) {
   // Call a procedure with no return value.
   var funcName = Blockly.JavaScript.variableDB_.getName(
-    block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
-  var code = Blockly.JavaScript['_procedures_callnoreturn'].call(Blockly.JavaScript, block);
+    block.getFieldValue('NAME'),
+    Blockly.Procedures.NAME_TYPE
+  );
+  var code = Blockly.JavaScript['_procedures_callnoreturn'].call(
+    Blockly.JavaScript,
+    block
+  );
   var defs = Blockly.JavaScript.definitions_;
   if (defs[funcName] && defs[funcName].indexOf('async ') === 0) {
     return 'await ' + code;
@@ -1345,7 +1480,10 @@ Blockly.JavaScript['procedures_callnoreturn'] = function (block) {
 Blockly.JavaScript['_workspaceToCode'] = Blockly.JavaScript['workspaceToCode'];
 
 Blockly.JavaScript['workspaceToCode'] = function (workspace) {
-  var code = Blockly.JavaScript['_workspaceToCode'].call(Blockly.JavaScript, workspace);
+  var code = Blockly.JavaScript['_workspaceToCode'].call(
+    Blockly.JavaScript,
+    workspace
+  );
   if (code.indexOf('await ') === -1) {
     code = code.replace(new RegExp('async function', 'g'), 'function');
   } else {
@@ -1403,75 +1541,115 @@ Blockly.JavaScript.scrub_ = function (block, code) {
 // ZoomControl icons position
 Blockly.ZoomControls.prototype.createDom = function () {
   var workspace = this.workspace_;
-  this.svgGroup_ = Blockly.createSvgElement('g', {
-    'class': 'blocklyZoom'
-  }, null);
+  this.svgGroup_ = Blockly.createSvgElement(
+    'g',
+    {
+      class: 'blocklyZoom',
+    },
+    null
+  );
   var rnd = String(Math.random()).substring(2);
-  var clip = Blockly.createSvgElement('clipPath', {
-      'id': 'blocklyZoomresetClipPath' + rnd
+  var clip = Blockly.createSvgElement(
+    'clipPath',
+    {
+      id: 'blocklyZoomresetClipPath' + rnd,
     },
-    this.svgGroup_);
-  Blockly.createSvgElement('rect', {
-      'width': 32,
-      'height': 32,
-      'x': 40,
-      'y': 80
+    this.svgGroup_
+  );
+  Blockly.createSvgElement(
+    'rect',
+    {
+      width: 32,
+      height: 32,
+      x: 40,
+      y: 80,
     },
-    clip);
-  var zoomresetSvg = Blockly.createSvgElement('image', {
-      'width': Blockly.SPRITE.width,
-      'height': Blockly.SPRITE.height,
-      'x': 40,
-      'y': -12,
-      'clip-path': 'url(#blocklyZoomresetClipPath' + rnd + ')'
+    clip
+  );
+  var zoomresetSvg = Blockly.createSvgElement(
+    'image',
+    {
+      width: Blockly.SPRITE.width,
+      height: Blockly.SPRITE.height,
+      x: 40,
+      y: -12,
+      'clip-path': 'url(#blocklyZoomresetClipPath' + rnd + ')',
     },
-    this.svgGroup_);
-  zoomresetSvg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-    'media/sprites.png');
+    this.svgGroup_
+  );
+  zoomresetSvg.setAttributeNS(
+    'http://www.w3.org/1999/xlink',
+    'xlink:href',
+    'media/sprites.png'
+  );
 
-  var clip = Blockly.createSvgElement('clipPath', {
-      'id': 'blocklyZoominClipPath' + rnd
+  var clip = Blockly.createSvgElement(
+    'clipPath',
+    {
+      id: 'blocklyZoominClipPath' + rnd,
     },
-    this.svgGroup_);
-  Blockly.createSvgElement('rect', {
-      'width': 32,
-      'height': 32,
-      'x': 0,
-      'y': 80
+    this.svgGroup_
+  );
+  Blockly.createSvgElement(
+    'rect',
+    {
+      width: 32,
+      height: 32,
+      x: 0,
+      y: 80,
     },
-    clip);
-  var zoominSvg = Blockly.createSvgElement('image', {
-      'width': Blockly.SPRITE.width,
-      'height': Blockly.SPRITE.height,
-      'x': -32,
-      'y': -12,
-      'clip-path': 'url(#blocklyZoominClipPath' + rnd + ')'
+    clip
+  );
+  var zoominSvg = Blockly.createSvgElement(
+    'image',
+    {
+      width: Blockly.SPRITE.width,
+      height: Blockly.SPRITE.height,
+      x: -32,
+      y: -12,
+      'clip-path': 'url(#blocklyZoominClipPath' + rnd + ')',
     },
-    this.svgGroup_);
-  zoominSvg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-    'media/sprites.png');
+    this.svgGroup_
+  );
+  zoominSvg.setAttributeNS(
+    'http://www.w3.org/1999/xlink',
+    'xlink:href',
+    'media/sprites.png'
+  );
 
-  var clip = Blockly.createSvgElement('clipPath', {
-      'id': 'blocklyZoomoutClipPath' + rnd
+  var clip = Blockly.createSvgElement(
+    'clipPath',
+    {
+      id: 'blocklyZoomoutClipPath' + rnd,
     },
-    this.svgGroup_);
-  Blockly.createSvgElement('rect', {
-      'width': 32,
-      'height': 32,
-      'x': 80,
-      'y': 80
+    this.svgGroup_
+  );
+  Blockly.createSvgElement(
+    'rect',
+    {
+      width: 32,
+      height: 32,
+      x: 80,
+      y: 80,
     },
-    clip);
-  var zoomoutSvg = Blockly.createSvgElement('image', {
-      'width': Blockly.SPRITE.width,
-      'height': Blockly.SPRITE.height,
-      'x': 16,
-      'y': -12,
-      'clip-path': 'url(#blocklyZoomoutClipPath' + rnd + ')'
+    clip
+  );
+  var zoomoutSvg = Blockly.createSvgElement(
+    'image',
+    {
+      width: Blockly.SPRITE.width,
+      height: Blockly.SPRITE.height,
+      x: 16,
+      y: -12,
+      'clip-path': 'url(#blocklyZoomoutClipPath' + rnd + ')',
     },
-    this.svgGroup_);
-  zoomoutSvg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-    'media/sprites.png');
+    this.svgGroup_
+  );
+  zoomoutSvg.setAttributeNS(
+    'http://www.w3.org/1999/xlink',
+    'xlink:href',
+    'media/sprites.png'
+  );
 
   Blockly.bindEvent_(zoomresetSvg, 'mousedown', workspace, workspace.zoomReset);
   Blockly.bindEvent_(zoominSvg, 'mousedown', null, function () {
@@ -1493,13 +1671,18 @@ Blockly.ZoomControls.prototype.position = function () {
   if (this.workspace_.RTL) {
     this.left_ = this.MARGIN_SIDE_;
   } else {
-    this.left_ = metrics.absoluteLeft -
-      this.WIDTH_ - this.MARGIN_SIDE_ + 100;
+    this.left_ = metrics.absoluteLeft - this.WIDTH_ - this.MARGIN_SIDE_ + 100;
   }
-  this.top_ = metrics.viewHeight + metrics.absoluteTop -
-    this.HEIGHT_ - this.MARGIN_BOTTOM_ + 5;
-  this.svgGroup_.setAttribute('transform',
-    'translate(' + this.left_ + ',' + this.top_ + ') scale(.95)');;
+  this.top_ =
+    metrics.viewHeight +
+    metrics.absoluteTop -
+    this.HEIGHT_ -
+    this.MARGIN_BOTTOM_ +
+    5;
+  this.svgGroup_.setAttribute(
+    'transform',
+    'translate(' + this.left_ + ',' + this.top_ + ') scale(.95)'
+  );
 };
 
 // trashcan position and size
@@ -1511,13 +1694,18 @@ Blockly.Trashcan.prototype.position = function () {
   if (this.workspace_.RTL) {
     this.left_ = this.MARGIN_SIDE_;
   } else {
-    this.left_ = metrics.absoluteLeft -
-    this.WIDTH_ - this.MARGIN_SIDE_ + 82;
+    this.left_ = metrics.absoluteLeft - this.WIDTH_ - this.MARGIN_SIDE_ + 82;
   }
-  this.top_ = metrics.viewHeight + metrics.absoluteTop -
-    (this.BODY_HEIGHT_ + this.LID_HEIGHT_) - this.MARGIN_BOTTOM_ + 26;
-  this.svgGroup_.setAttribute('transform',
-    'translate(' + this.left_ + ',' + this.top_ + ') scale(.58)');
+  this.top_ =
+    metrics.viewHeight +
+    metrics.absoluteTop -
+    (this.BODY_HEIGHT_ + this.LID_HEIGHT_) -
+    this.MARGIN_BOTTOM_ +
+    26;
+  this.svgGroup_.setAttribute(
+    'transform',
+    'translate(' + this.left_ + ',' + this.top_ + ') scale(.58)'
+  );
 };
 
 Blockly.WorkspaceSvg.prototype.showContextMenu_ = function (e) {
@@ -1592,7 +1780,7 @@ Blockly.WorkspaceSvg.prototype.showContextMenu_ = function (e) {
 
     // Option to collapse top blocks.
     var collapseOption = {
-      enabled: hasExpandedBlocks
+      enabled: hasExpandedBlocks,
     };
     collapseOption.text = Blockly.Msg.COLLAPSE_ALL;
     collapseOption.callback = function () {
@@ -1602,7 +1790,7 @@ Blockly.WorkspaceSvg.prototype.showContextMenu_ = function (e) {
 
     // Option to expand top blocks.
     var expandOption = {
-      enabled: hasCollapsedBlocks
+      enabled: hasCollapsedBlocks,
     };
     expandOption.text = Blockly.Msg.EXPAND_ALL;
     expandOption.callback = function () {
@@ -1629,15 +1817,21 @@ Blockly.WorkspaceSvg.prototype.showContextMenu_ = function (e) {
     addDeletableBlocks(topBlocks[i]);
   }
   var deleteOption = {
-    text: deleteList.length == 1 ? Blockly.Msg.DELETE_BLOCK : Blockly.Msg.DELETE_X_BLOCKS.replace('%1', String(deleteList.length)),
+    text:
+      deleteList.length == 1
+        ? Blockly.Msg.DELETE_BLOCK
+        : Blockly.Msg.DELETE_X_BLOCKS.replace('%1', String(deleteList.length)),
     enabled: deleteList.length > 0,
     callback: function () {
-      if (deleteList.length < 2 ||
-        window.confirm(Blockly.Msg.DELETE_ALL_BLOCKS.replace('%1',
-          String(deleteList.length)))) {
+      if (
+        deleteList.length < 2 ||
+        window.confirm(
+          Blockly.Msg.DELETE_ALL_BLOCKS.replace('%1', String(deleteList.length))
+        )
+      ) {
         deleteNext();
       }
-    }
+    },
   };
 
   function deleteNext() {
@@ -1660,7 +1854,7 @@ Blockly.WorkspaceSvg.prototype.showContextMenu_ = function (e) {
 
 Blockly.WorkspaceSvg.prototype.preloadAudio_ = function () {};
 
-Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
+Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
   if (this.workspace.options.readOnly || !this.contextMenu) {
     return;
   }
@@ -1673,27 +1867,30 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
     var duplicateOption = {
       text: Blockly.Msg.DUPLICATE_BLOCK,
       enabled: true,
-      callback: function() {
+      callback: function () {
         Blockly.duplicate_(block);
-      }
+      },
     };
     if (this.getDescendants().length > this.workspace.remainingCapacity()) {
       duplicateOption.enabled = false;
     }
     menuOptions.push(duplicateOption);
 
-    if (this.isEditable() && !this.collapsed_ &&
-        this.workspace.options.comments) {
+    if (
+      this.isEditable() &&
+      !this.collapsed_ &&
+      this.workspace.options.comments
+    ) {
       // Option to add/remove a comment.
-      var commentOption = {enabled: !goog.userAgent.IE};
+      var commentOption = { enabled: !goog.userAgent.IE };
       if (this.comment) {
         commentOption.text = Blockly.Msg.REMOVE_COMMENT;
-        commentOption.callback = function() {
+        commentOption.callback = function () {
           block.setCommentText(null);
         };
       } else {
         commentOption.text = Blockly.Msg.ADD_COMMENT;
-        commentOption.callback = function() {
+        commentOption.callback = function () {
           block.setCommentText('');
         };
       }
@@ -1703,15 +1900,18 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
     // Option to make block inline.
     if (!this.collapsed_) {
       for (var i = 1; i < this.inputList.length; i++) {
-        if (this.inputList[i - 1].type != Blockly.NEXT_STATEMENT &&
-            this.inputList[i].type != Blockly.NEXT_STATEMENT) {
+        if (
+          this.inputList[i - 1].type != Blockly.NEXT_STATEMENT &&
+          this.inputList[i].type != Blockly.NEXT_STATEMENT
+        ) {
           // Only display this option if there are two value or dummy inputs
           // next to each other.
-          var inlineOption = {enabled: true};
+          var inlineOption = { enabled: true };
           var isInline = this.getInputsInline();
-          inlineOption.text = isInline ?
-              Blockly.Msg.EXTERNAL_INPUTS : Blockly.Msg.INLINE_INPUTS;
-          inlineOption.callback = function() {
+          inlineOption.text = isInline
+            ? Blockly.Msg.EXTERNAL_INPUTS
+            : Blockly.Msg.INLINE_INPUTS;
+          inlineOption.callback = function () {
             block.setInputsInline(!isInline);
           };
           menuOptions.push(inlineOption);
@@ -1723,16 +1923,16 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
     if (this.workspace.options.collapse) {
       // Option to collapse/expand block.
       if (this.collapsed_) {
-        var expandOption = {enabled: true};
+        var expandOption = { enabled: true };
         expandOption.text = Blockly.Msg.EXPAND_BLOCK;
-        expandOption.callback = function() {
+        expandOption.callback = function () {
           block.setCollapsed(false);
         };
         menuOptions.push(expandOption);
       } else {
-        var collapseOption = {enabled: true};
+        var collapseOption = { enabled: true };
         collapseOption.text = Blockly.Msg.COLLAPSE_BLOCK;
-        collapseOption.callback = function() {
+        collapseOption.callback = function () {
           block.setCollapsed(true);
         };
         menuOptions.push(collapseOption);
@@ -1742,12 +1942,13 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
     if (this.workspace.options.disable) {
       // Option to disable/enable block.
       var disableOption = {
-        text: this.disabled ?
-            Blockly.Msg.ENABLE_BLOCK : Blockly.Msg.DISABLE_BLOCK,
+        text: this.disabled
+          ? Blockly.Msg.ENABLE_BLOCK
+          : Blockly.Msg.DISABLE_BLOCK,
         enabled: !this.getInheritedDisabled(),
-        callback: function() {
+        callback: function () {
           block.setDisabled(!block.disabled);
-        }
+        },
       };
       menuOptions.push(disableOption);
     }
@@ -1761,35 +1962,37 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
       descendantCount -= nextBlock.getDescendants().length;
     }
     var deleteOption = {
-      text: descendantCount == 1 ? Blockly.Msg.DELETE_BLOCK :
-          Blockly.Msg.DELETE_X_BLOCKS.replace('%1', String(descendantCount)),
+      text:
+        descendantCount == 1
+          ? Blockly.Msg.DELETE_BLOCK
+          : Blockly.Msg.DELETE_X_BLOCKS.replace('%1', String(descendantCount)),
       enabled: true,
-      callback: function() {
+      callback: function () {
         Blockly.Events.setGroup(true);
         block.dispose(true, true);
         Blockly.Events.setGroup(false);
-      }
+      },
     };
     menuOptions.push(deleteOption);
   }
 
   // Option to get help.
   var url = goog.isFunction(this.helpUrl) ? this.helpUrl() : this.helpUrl;
-  var helpOption = {enabled: !!url};
+  var helpOption = { enabled: !!url };
   helpOption.text = Blockly.Msg.HELP;
-  helpOption.callback = function() {
+  helpOption.callback = function () {
     block.showHelp_();
   };
   menuOptions.push(helpOption);
 
   var toolOption = {};
   toolOption.text = Blockly.Msg.TOOL;
-  if(this.toolUrl){
+  if (this.toolUrl) {
     toolOption.enabled = true;
-  }else{
+  } else {
     toolOption.enabled = false;
   }
-  toolOption.callback = function() {
+  toolOption.callback = function () {
     block.showTool_();
   };
   menuOptions.push(toolOption);
@@ -1803,23 +2006,23 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
   Blockly.ContextMenu.currentBlock = this;
 };
 
-Blockly.Block.prototype.setToolUrl = function(url) {
+Blockly.Block.prototype.setToolUrl = function (url) {
   this.toolUrl = url;
 };
 
-Blockly.BlockSvg.prototype.showTool_ = function() {
+Blockly.BlockSvg.prototype.showTool_ = function () {
   var url = goog.isFunction(this.toolUrl) ? this.helpUrl() : this.toolUrl;
   if (url) {
     window.open(url);
   }
 };
 
-
-Blockly.Block.prototype.jsonInit = function(json) {
+Blockly.Block.prototype.jsonInit = function (json) {
   // Validate inputs.
-  goog.asserts.assert(json['output'] == undefined ||
-      json['previousStatement'] == undefined,
-      'Must not have both an output and a previousStatement.');
+  goog.asserts.assert(
+    json['output'] == undefined || json['previousStatement'] == undefined,
+    'Must not have both an output and a previousStatement.'
+  );
 
   // Set basic properties of block.
   if (json['colour'] !== undefined) {
@@ -1829,8 +2032,11 @@ Blockly.Block.prototype.jsonInit = function(json) {
   // Interpolate the message blocks.
   var i = 0;
   while (json['message' + i] !== undefined) {
-    this.interpolate_(json['message' + i], json['args' + i] || [],
-        json['lastDummyAlign' + i]);
+    this.interpolate_(
+      json['message' + i],
+      json['args' + i] || [],
+      json['lastDummyAlign' + i]
+    );
     i++;
   }
 
@@ -1858,30 +2064,62 @@ Blockly.Block.prototype.jsonInit = function(json) {
   }
 };
 
-
-
 Blockly.JavaScript.depth = 0;
 
 // Load the Code demo's language strings.
-document.write('<script src="' + baseUrl + '/msg/' + Code.LANG + '.js"></script>\n');
+document.write(
+  '<script src="' + baseUrl + '/msg/' + Code.LANG + '.js"></script>\n'
+);
 // Load Blockly's language strings.
-document.write('<script src="' + baseUrl + '/components/blockly-src/msg/js/' + Code.LANG + '.js"></script>\n');
-document.write('<script src="' + baseUrl + '/blocks/msg/' + Code.LANG + '.js"></script>\n');
+document.write(
+  '<script src="' +
+    baseUrl +
+    '/components/blockly-src/msg/js/' +
+    Code.LANG +
+    '.js"></script>\n'
+);
+document.write(
+  '<script src="' + baseUrl + '/blocks/msg/' + Code.LANG + '.js"></script>\n'
+);
 
 if (Code.PAGE !== 'index') {
-  document.write('<script src="' + baseUrl + '/msg/' + Code.PAGE + '/' + Code.LANG + '.js"></script>\n');
-  document.write('<script src="' + baseUrl + '/blocks/' + Code.PAGE.split('/')[0] + '.js"></script>\n');
-  document.write('<script src="' + baseUrl + '/generators/' + Code.PAGE.split('/')[0] + '.js"></script>\n');
+  document.write(
+    '<script src="' +
+      baseUrl +
+      '/msg/' +
+      Code.PAGE +
+      '/' +
+      Code.LANG +
+      '.js"></script>\n'
+  );
+  document.write(
+    '<script src="' +
+      baseUrl +
+      '/blocks/' +
+      Code.PAGE.split('/')[0] +
+      '.js"></script>\n'
+  );
+  document.write(
+    '<script src="' +
+      baseUrl +
+      '/generators/' +
+      Code.PAGE.split('/')[0] +
+      '.js"></script>\n'
+  );
 }
 
 Promise.all([
   Code.loadDoc(baseUrl + '/views/' + Code.PAGE.split('/')[0] + '.handlebars'),
   Code.loadDoc(baseUrl + '/toolbox/' + Code.PAGE + '.xml'),
   new Promise(function (resolve) {
-    window.addEventListener('load', function () {
-      resolve();
-    }, false);
-  })
+    window.addEventListener(
+      'load',
+      function () {
+        resolve();
+      },
+      false
+    );
+  }),
 ]).then(function (values) {
   Code.initHandlebars();
   Code.renderPage(values[0].body.innerHTML);
@@ -1895,7 +2133,7 @@ Promise.all([
   Code.bindHotkey(window.document);
   Promise.all([
     Code.loadJs(baseUrl + '/lib/webduino-base.min.js'),
-    Code.loadJs(baseUrl + '/webduino-blockly.js')
+    Code.loadJs(baseUrl + '/webduino-blockly.js'),
   ]).then(function () {
     Code.checkDeviceOnline();
   });

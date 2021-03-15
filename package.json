@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "start": "node webserver.js",
-    "runs":"static . -a 0.0.0.0"
+    "runs": "static . -a 0.0.0.0"
   },
   "license": "MIT",
   "dependencies": {
